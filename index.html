@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b2354">
+  <meta name="description" content="Consumer and Business/SME credit risk rating forms for Rural Bank of Liloy (ZN), Inc.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>CRR Workspace · Rural Bank of Liloy (ZN), Inc.</title>
+  <link rel="icon" type="image/png" href="./assets/rbliloy-logo.png">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="./assets/print.css" media="print">
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <a href="#workspace" class="skip-link">Skip to assessment</a>
+  <div id="app"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="modal" aria-labelledby="modal-title"></dialog>
+  <input type="file" id="import-file" accept=".json,application/json" hidden>
+  <article id="print-report" aria-label="Printable CRR assessment"></article>
+  <noscript>This form requires JavaScript. Enable JavaScript to complete a CRR assessment.</noscript>
+</body>
+</html>
