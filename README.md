@@ -9,7 +9,7 @@ A responsive online credit risk rating form based on the supplied Consumer and B
 3. Answer the pre-qualification checklist and explain any No or N/A responses.
 4. Rate every criterion using its A, B or C option. Record supporting reasons.
 5. Review document completeness, additional risk conditions and any documented override.
-6. Save a draft, download the editable JSON record, export CSV, or select **Print / PDF**. Choose **Save as PDF** in the print dialog.
+6. Save a draft, download the editable JSON record, export CSV, or select **Print / PDF**. Choose **Save as PDF** in the print dialog. Use **portrait, A4 or Letter (short bond), 100% scale**, and turn off browser headers/footers. The complete form follows the original PDF table layout with pale blue section shading and is designed for **two pages** with typical completed entries. All A/B/C choices, selected checkboxes, reasons, section totals, document checks, signatures and the rating reference are retained. Unusually long remarks continue onto extra pages rather than being cut off.
 
 The app contains 19 Consumer criteria (the PDF repeats number 7) and 26 SME criteria. The repeated SME supplier question is retained. Consumer and SME work are kept separately while the tab remains open.
 
@@ -99,7 +99,7 @@ src/app.js          Form flow, dialogs, local drafts and exports
 src/report.js       Printable record and CSV output
 src/webmcp.js       Optional non-sensitive progress/navigation page tools
 assets/styles.css   Responsive workspace theme
-assets/print.css    A4 print layout
+assets/print.css    Compact PDF-style print layout (A4 / Letter)
 tests/              Source fidelity, calculation, validation and export tests
 scripts/            Dependency-free development server and static build
 ```
