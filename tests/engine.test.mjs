@@ -29,11 +29,18 @@ test('blank and partially answered forms do not get a score or CRR',()=>{
   const s=createAssessment('sme');s.answers['s-bank']='A';
   const c=calculate(s);assert.equal(c.answered,1);assert.equal(c.score,null);assert.equal(c.finalGrade,null);assert.equal(c.groups[0].average,null);
 });
-test('Consumer source 110% weights block final rating, preserve source values and show only a provisional preview',()=>{
-  const c=calculate(fixture('consumer'));assert.equal(c.policy.sum,110);assert.equal(c.score,null);assert.equal(c.finalGrade,null);assert.equal(c.normalizedPreview,10);assert.equal(c.ready,false);
+test('Consumer defaults total 100% with Repayment at 25% and need no custom-policy approval',()=>{
+  const s=fixture('consumer');
+  assert.deepEqual(s.policy.weights,{A:25,B:25,C:25,D:15,E:10});
+  assert.equal(s.policy.confirmed,false);
+  const c=calculate(s);assert.equal(c.policy.sum,100);assert.equal(c.policy.valid,true);assert.equal(c.score,10);assert.equal(c.finalGrade,1);assert.equal(c.ready,true);
+  FORMS.consumer.groups[2].questions.forEach(q=>s.answers[q.id]='C');
+  assert.equal(calculate(s).score,7.5);assert.equal(calculate(s).finalGrade,2);
+  const sme=fixture();assert.equal(sme.policy.weights.C,35);assert.equal(calculate(sme).policy.sum,100);
 });
 test('changed weights require a 100% total, approver, reference and confirmation',()=>{
-  const s=approvedConsumer(fixture('consumer'));assert.equal(calculate(s).score,10);assert.equal(calculate(s).finalGrade,1);
+  const s=approvedConsumer(fixture('consumer'));s.policy.weights.A=20;s.policy.weights.B=30;
+  assert.equal(calculate(s).score,10);assert.equal(calculate(s).finalGrade,1);
   s.policy.confirmed=false;assert.equal(calculate(s).score,null);
   s.policy.confirmed=true;s.policy.reference='';assert.equal(calculate(s).score,null);
   s.policy.reference='QA';s.policy.weights.C=26;assert.equal(calculate(s).score,null);
@@ -125,6 +132,15 @@ test('drafts survive a storage round trip; updating retains identity, deleting i
   const store=memoryStorage(),s=fixture();const saved=saveDraft(s,store);assert.equal(readDrafts(store).length,1);assert.equal(saved.id,s.id);
   s.borrower.name='Updated QA';saveDraft(s,store);assert.equal(readDrafts(store).length,1);assert.equal(readDrafts(store)[0].borrower.name,'Updated QA');
   const second=fixture('consumer');saveDraft(second,store);deleteDraft(s.id,store);assert.equal(readDrafts(store)[0].id,second.id);
+});
+test('existing Consumer records retain weights and policy references when defaults change',()=>{
+  const s=fixture('consumer');s.policy.weights.C=35;
+  const store=memoryStorage();saveDraft(s,store);
+  const restored=readDrafts(store)[0];assert.equal(restored.policy.weights.C,35);
+  assert.equal(calculate(restored).policy.sum,110);assert.equal(calculate(restored).score,null);
+  const approved=validateAssessment(approvedConsumer(fixture('consumer')));
+  const report=buildReport(approved);
+  assert.ok(report.includes('TEST POLICY ONLY'));assert.ok(report.includes('QA fixture — not a bank-approved model'));
 });
 test('corrupted or unavailable storage fails without overwriting existing records',()=>{
   const store=memoryStorage();store.setItem(STORAGE_KEY,'broken');assert.throws(()=>saveDraft(fixture(),store));assert.equal(store.getItem(STORAGE_KEY),'broken');

@@ -19,14 +19,14 @@ This is a transcription and calculation tool, not a newly approved credit policy
 
 | Source item | App behavior |
 | --- | --- |
-| Consumer weights are 25%, 25%, 35%, 15%, 10%: total **110%** | Retains source values. No final CRR until an officer records approved weights totaling 100%, an approving officer and policy reference. A normalized preview is explicitly provisional. The app does not choose replacement weights. |
+| Consumer PDF weights are 25%, 25%, 35%, 15%, 10%: total **110%** | As requested, the app's default C. Repayment weight is corrected to **25%**, giving **25% + 25% + 25% + 15% + 10% = 100%**. Custom weights still require an approving officer, policy reference and confirmation. Saved/imported assessments retain their recorded weights; to update an older draft, open **Scoring policy → Use default weights (100%) → Apply policy**, then save it. |
 | Consumer numbering repeats 7 | Both compliance and employment-tenure criteria remain separate, with distinct internal IDs. |
 | SME items 11 and 12 both measure supplier dependency | Retains and scores both as printed; does not silently rename the second item to customer concentration. |
 | SME item 23 option B score is unclear in the scan | Its score remains unconfirmed. If selected, the rating is blocked until the bank's 0/5 interpretation and reference are recorded. |
 | SME numeric bands start at 4.00 | Scores below 4.00 have no inferred final CRR, including when automatic condition flags are set. |
 | Some ratio/tenure thresholds overlap or leave gaps | Options retain source meaning with notes; numeric values never auto-select a criterion. Examples include Consumer tenure, years of business and collateral cover, and SME income ratio, OCF, leverage and quick ratio. |
 | High-risk industry list is referenced but absent | No industry list is invented. |
-| Days-past-due grade thresholds are absent | The officer enters the bank-assigned CRR 7–10 and a policy basis; the app does not infer it from days alone. |
+| Days-past-due grade thresholds are absent | The score-range table and guide use the PDF's merged label: “Delinquent & Past Due Accounts rated anywhere from 7 to 10 depending on days past due.” The officer enters the bank-assigned CRR 7–10 and a policy basis; the app does not infer it from days alone. |
 
 Policy confirmation fields record an interpretation supplied by the operator. They are not an authenticated approval workflow. The PDF examples' borrower names, loan values and signatures are **not** seeded into the app or copied into the repository.
 

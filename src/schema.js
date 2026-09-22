@@ -1,6 +1,7 @@
 export const BANK = 'Rural Bank of Liloy (ZN), Inc.';
 export const ADDRESS = 'Baybay, Liloy, Zamboanga del Norte';
 export const VERSION = '1.0';
+export const DELINQUENCY_LABEL = 'Delinquent & Past Due Accounts rated anywhere from 7 to 10 depending on days past due';
 const q = (id, number, title, options, note = '') => ({
   id, number, title, note,
   options: options.map((label, i) => ({ key: ['A', 'B', 'C'][i], label, score: [10, 5, 0][i] })),
@@ -60,7 +61,7 @@ export const FORMS = {
         q('c-compensation', '10', 'Compensation', ['Net disposable income above ₱50,000/month OR NDI above 30% of proposed monthly amortization.', 'NDI of ₱20,000–₱50,000/month OR NDI of 20–30% of proposed monthly amortization.', 'NDI below ₱20,000/month OR NDI below 20% of proposed monthly amortization.'], 'The income/amortization wording follows the source; the app does not infer a score from monetary values.'),
         q('c-other-income', '11', 'Other income sources', ['Other regular/stable income sources.', 'Other income sources, but unstable/irregular.', 'No other income sources.'], 'Excludes income from a formal/registered business. If repayment comes from a sole proprietorship, partnership or company, the source directs use of the Business/SME form.'),
       ]),
-      group('C', 'Repayment', 'Repayment indicators', 35, [
+      group('C', 'Repayment', 'Repayment indicators', 25, [
         q('c-income-ratio', '12', 'Loan to net income, net pay or deposit ADB ratio', ['Monthly amortization below 50% of NI or NDI.', 'Monthly amortization equal to 50% of NI or NDI.', 'Monthly amortization above 50% of NI or NDI.']),
         q('c-debt-equity', '13', 'Debt-to-equity ratio', ['Debt-to-equity ratio below 2:1.', 'Debt-to-equity ratio equal to 2:1.', 'Debt-to-equity ratio above 2:1.']),
       ]),

@@ -84,7 +84,8 @@ body { font-family: Arial, Helvetica, sans-serif; font-size: 7.5pt; line-height:
 .remarks-cell > div { margin-top: 2pt; }
 .remarks-cell small { display: block; margin-top: 2pt; font-size: 6.2pt; }
 .paper-reference { margin-top: 2pt; font-size: 6.8pt; break-inside: avoid; }
-.paper-reference th, .paper-reference td { padding: 1.2pt 3pt; }
+.paper-reference th, .paper-reference td { padding: 1pt 3pt; }
+.paper-reference .delinquency-range { text-align: left; vertical-align: middle; line-height: 1.08; }
 .paper-reference .range-col { width: 7%; }
 .paper-reference .grade-col { width: 30%; }
 .paper-reference .assessment-col { width: 18%; }
