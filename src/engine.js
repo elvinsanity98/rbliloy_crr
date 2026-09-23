@@ -59,6 +59,7 @@ export function calculate(state) {
   const blockers = [];
   const adjustmentNotes = [];
   if (!complete) blockers.push(`Complete all ${total} risk criteria (${answered} scored).`);
+  if (state.type === 'sme' && state.answers['s-supplier-12'] && !state.answers['s-buyer-12']) blockers.push('Rate SME item 12 for buyers/customers. Its earlier supplier response is retained in the editable record.');
   if (!policy.valid) blockers.push(policy.sum !== 100 ? `Section weights total ${policy.sum ?? 'an invalid value'}%. Record approved weights totaling 100% in Scoring policy.` : 'Record the approver and policy reference for the changed section weights.');
   if (state.type === 'sme' && state.answers['s-investments'] === 'B' && optionScore(state, allQuestions('sme').find(q => q.id === 's-investments')) === null) blockers.push('Confirm the unclear score for SME item 23, option B, in Scoring policy.');
   if (score !== null && baseGrade === null) blockers.push('The SME source has no numeric rating band below 4.00. A final CRR cannot be inferred from this score.');
@@ -131,7 +132,10 @@ export function validateAssessment(raw) {
     if (typeof raw[key] !== 'string' || raw[key].length > 5000) throw new Error(`Invalid ${key}.`);
     clean[key] = raw[key];
   }
-  for (const question of allQuestions(raw.type)) {
+  // Keep the former supplier response for reference, without scoring it as a
+  // buyer/customer answer. Older drafts need a fresh selection for item 12.
+  const acceptedQuestions = [...allQuestions(raw.type), ...(raw.type === 'sme' ? [{ id: 's-supplier-12' }] : [])];
+  for (const question of acceptedQuestions) {
     const value = raw.answers?.[question.id];
     if (value !== undefined) {
       if (!['A', 'B', 'C'].includes(value)) throw new Error('Invalid criterion selection.');

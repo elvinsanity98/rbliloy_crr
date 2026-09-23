@@ -23,7 +23,8 @@ test('maps all source criteria without deduplicating repeated source numbers',()
   assert.equal(allQuestions('sme').length,26);
   for(const type of Object.keys(FORMS))assert.equal(new Set(allQuestions(type).map(q=>q.id)).size,allQuestions(type).length);
   assert.equal(allQuestions('consumer').filter(q=>q.number==='7').length,2);
-  assert.equal(FORMS.sme.groups[1].questions.filter(q=>q.id.startsWith('s-supplier')).length,2);
+  assert.equal(FORMS.sme.groups[1].questions.find(q=>q.number==='11').title,'Dependency on suppliers');
+  assert.equal(FORMS.sme.groups[1].questions.find(q=>q.number==='12').title,'Dependency on Buyers/Customer');
 });
 test('blank and partially answered forms do not get a score or CRR',()=>{
   const s=createAssessment('sme');s.answers['s-bank']='A';
@@ -127,6 +128,18 @@ test('invalid imported scores, objects, versions, policies and oversized text ar
   for(const mutate of [s=>s.schemaVersion='9',s=>s.type='unknown',s=>s.answers['s-bank']='D',s=>s.review.documents='approved',s=>s.review.startup='yes',s=>s.policy.weights.A=-1,s=>s.policy.weights.A=null,s=>s.reasons['s-bank']='x'.repeat(5001),s=>s.borrower.name={markup:'bad'}]){
     const s=fixture();mutate(s);assert.throws(()=>validateAssessment(s));
   }
+});
+test('older SME supplier responses are preserved but require a fresh buyer/customer rating',()=>{
+  const old=fixture();delete old.answers['s-buyer-12'];
+  old.answers['s-supplier-12']='A';old.reasons['s-supplier-12']='Earlier supplier concentration evidence.';
+  const restored=validateAssessment(old);
+  assert.equal(restored.answers['s-supplier-12'],'A');
+  assert.equal(restored.reasons['s-supplier-12'],old.reasons['s-supplier-12']);
+  assert.equal(restored.answers['s-buyer-12'],undefined);
+  assert.equal(calculate(restored).score,null);
+  assert.ok(calculate(restored).blockers.some(x=>x.includes('Rate SME item 12')));
+  restored.answers['s-buyer-12']='B';assert.equal(calculate(restored).score,9.84);
+  assert.equal(validateAssessment(restored).answers['s-buyer-12'],'B');
 });
 test('drafts survive a storage round trip; updating retains identity, deleting is scoped',()=>{
   const store=memoryStorage(),s=fixture();const saved=saveDraft(s,store);assert.equal(readDrafts(store).length,1);assert.equal(saved.id,s.id);

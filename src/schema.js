@@ -25,6 +25,7 @@ const industry = [
 ];
 const classification = ['Residential.', 'Commercial.', 'Industrial/acceptable agricultural.'];
 const supplier = ['Less than 30% of raw materials supplied directly/indirectly by one supplier.', '30–70% of raw materials supplied directly/indirectly by one supplier.', 'Over 70% of raw materials supplied directly/indirectly by one supplier.'];
+const buyer = ['Less than 30% of sales directly/indirectly to one buyer/customer.', '30–70% of sales directly/indirectly to one buyer/customer.', 'Over 70% of sales directly/indirectly to one buyer/customer.'];
 const group = (id, short, title, weight, questions) => ({ id, short, title, weight, questions });
 
 export const FORMS = {
@@ -96,7 +97,7 @@ export const FORMS = {
         q('s-business-type', '9', 'Type of business', industry, 'Source wording retained. The referenced high-risk sector listing is not included.'),
         q('s-location', '10', 'Business location', ['Excellent location; easy access to/from target markets; no peace/order problems; outside typhoon, flood or volcanic hazard areas.', 'Acceptable location near target markets; insignificant peace/order concerns; far from typhoon, flood or volcanic hazard areas.', 'Poor location; difficult access to/from target markets; major peace/order concerns; within/near typhoon, flood or volcanic hazard areas.']),
         q('s-supplier-11', '11', 'Dependency on suppliers', supplier),
-        q('s-supplier-12', '12', 'Dependency on suppliers — second source item', supplier, 'The source repeats the same criterion as item 11. It is retained as a separate scored item, pending the bank’s correction.'),
+        q('s-buyer-12', '12', 'Dependency on Buyers/Customer', buyer, 'Item 12 assesses sales concentration with one buyer/customer. It uses the same percentage bands and A/B/C scores as before. Review this item when opening an older assessment.'),
         q('s-competition', '13', 'Competitive standing', ['Only 1–2 players / among the top 30% of players / market share above 30%.', 'Several players / among the next 30% of players / market share of 20–30%.', 'Many players / among the bottom 40% of players / market share below 20%.']),
         q('s-prospects', '14', 'Industry prospects', ['Stable outlook with good growth potential; industry revenue increasing for the past 3 years.', 'Still stable but showing decline; flat or erratic revenue growth for the past 3 years.', 'Mature industry with declining outlook; revenue decreasing for the past 3 years.']),
         q('s-substitution', '15', 'Threat of substitution', ['Difficult industry entry; minimal substitution; strong brand loyalty and profit margin equal to industry average.', 'Moderate industry entry; substitution constrains pricing; profit margins below industry average.', 'Easy industry entry; low prices to retain demand; below break-even profit margins or loss.']),

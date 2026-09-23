@@ -9,9 +9,9 @@ A responsive online credit risk rating form based on the supplied Consumer and B
 3. Answer the pre-qualification checklist and explain any No or N/A responses.
 4. Rate every criterion using its A, B or C option. Record supporting reasons.
 5. Review document completeness, additional risk conditions and any documented override.
-6. Save a draft, download the editable JSON record, export CSV, or select **Print / PDF**. Choose **Save as PDF** in the print dialog. Use **portrait, A4 or Letter (short bond), 100% scale**, and turn off browser headers/footers. The complete form follows the original PDF table layout with pale blue section shading and is designed for **two pages** with typical completed entries. All A/B/C choices, selected checkboxes, reasons, section totals, document checks, signatures and the rating reference are retained. Unusually long remarks continue onto extra pages rather than being cut off.
+6. Save a draft, download the editable JSON record, export CSV, or select **Print / PDF**. Choose **Save as PDF** in the print dialog. Use **portrait, A4 or Letter (short bond), 100% scale**, and turn off browser headers/footers. The complete form follows the original PDF table layout with pale blue section shading and is designed for **two pages** with typical completed entries. All A/B/C choices, selected checkboxes, reasons, section totals, document checks, preparing/reviewing signatures and the rating reference are retained. The pre-qualification REMARKS area and the third signature and remarks cells are left blank for handwriting on both forms; their stored digital information remains in JSON/CSV exports. Unusually long remarks continue onto extra pages rather than being cut off.
 
-The app contains 19 Consumer criteria (the PDF repeats number 7) and 26 SME criteria. The repeated SME supplier question is retained. Consumer and SME work are kept separately while the tab remains open.
+The app contains 19 Consumer criteria (the PDF repeats number 7) and 26 SME criteria. SME item 11 assesses suppliers, and item 12 is corrected to Dependency on Buyers/Customer. Consumer and SME work are kept separately while the tab remains open.
 
 ## Source issues requiring bank review
 
@@ -21,7 +21,7 @@ This is a transcription and calculation tool, not a newly approved credit policy
 | --- | --- |
 | Consumer PDF weights are 25%, 25%, 35%, 15%, 10%: total **110%** | As requested, the app's default C. Repayment weight is corrected to **25%**, giving **25% + 25% + 25% + 15% + 10% = 100%**. Custom weights still require an approving officer, policy reference and confirmation. Saved/imported assessments retain their recorded weights; to update an older draft, open **Scoring policy → Use default weights (100%) → Apply policy**, then save it. |
 | Consumer numbering repeats 7 | Both compliance and employment-tenure criteria remain separate, with distinct internal IDs. |
-| SME items 11 and 12 both measure supplier dependency | Retains and scores both as printed; does not silently rename the second item to customer concentration. |
+| SME PDF repeats supplier dependency in items 11 and 12 | As requested, item 12 now assesses **Dependency on Buyers/Customer** based on sales to one buyer/customer, retaining the below-30%, 30–70%, above-70% bands and 10/5/0 scores. Older supplier-based answers and reasons are retained in the editable record, but item 12 must be rated for buyers/customers before a final CRR is available. |
 | SME item 23 option B score is unclear in the scan | Its score remains unconfirmed. If selected, the rating is blocked until the bank's 0/5 interpretation and reference are recorded. |
 | SME numeric bands start at 4.00 | Scores below 4.00 have no inferred final CRR, including when automatic condition flags are set. |
 | Some ratio/tenure thresholds overlap or leave gaps | Options retain source meaning with notes; numeric values never auto-select a criterion. Examples include Consumer tenure, years of business and collateral cover, and SME income ratio, OCF, leverage and quick ratio. |
