@@ -19,7 +19,6 @@ export function buildReport(state) {
   const result = calculate(state);
   const r = state.review;
   const reference = state.borrower.reference || state.id.slice(0, 8).toUpperCase();
-  const outstanding = [...result.blockers, ...result.missingFields];
   const qualifications = `<table class="paper-table paper-qualification"><colgroup><col class="criterion-col"><col class="check-col"><col class="check-col"><col class="qualification-remarks-col"></colgroup><thead><tr><th>Pre-Qualification Check List</th><th>Yes</th><th>No</th><th>REMARKS</th></tr></thead><tbody>${form.qualification.map((text, i) => `<tr><td>${escapeHtml(text)}${state.qualification[i] === 'na' ? ' <b>(N/A)</b>' : ''}${!state.qualification[i] ? ' <span class="unanswered">(unanswered)</span>' : ''}</td><td class="center">${check(state.qualification[i] === 'yes')}</td><td class="center">${check(state.qualification[i] === 'no')}</td>${i === 0 ? `<td rowspan="${form.qualification.length}" class="paper-text qualification-remarks"></td>` : ''}</tr>`).join('')}</tbody></table>`;
   const groups = form.groups.map(g => {
     const score = result.groups.find(x => x.id === g.id);
@@ -46,7 +45,7 @@ export function buildReport(state) {
     <div class="paper-form-title"><h2>${state.type === 'consumer' ? 'CONSUMER CRR SHEET' : 'SME/BUSINESS CRR SHEET'}</h2><span>${result.ready ? 'ASSESSMENT RECORD' : 'DRAFT · INCOMPLETE'}</span></div>
     <div class="paper-meta"><div class="paper-bank-name"><b>BANK NAME: ${BANK.toUpperCase()}</b></div><div><span><b>Name of Borrower:</b> ${value(state.borrower.name)}</span><span><b>Originating Branch/Unit:</b> ${value(state.borrower.branch)}</span></div><div><span><b>Amount Applied:</b> ${money(state.borrower.amount)}</span><span><b>Term:</b> ${state.borrower.term ? `${value(state.borrower.term)} ${value(state.borrower.termUnit)}` : '—'}</span><span><b>Assessment Date:</b> ${dateLabel(state.borrower.date)}</span></div><div><span><b>Loan Type:</b> ${value(state.borrower.loanType)}</span><span><b>Reference:</b> ${value(reference)}</span></div></div>
     ${qualifications}${groups}${review}${bands}
-    <div class="paper-policy">${!result.policy.valid ? `<p><b>Weight total: ${escapeHtml(result.policy.sum ?? 'invalid')}%.</b> ${result.normalizedPreview !== null ? `Normalized preview: ${result.normalizedPreview.toFixed(2)}/10 (provisional; not a final CRR).` : ''}</p>` : ''}${outstanding.length ? `<p><b>Outstanding items:</b> ${escapeHtml(outstanding.join(' '))}</p>` : ''}<p>Calculated rating is an assessment record, not a loan approval. Officer names are not authenticated electronic signatures.</p></div>
+    <div class="paper-policy">${!result.policy.valid ? `<p><b>Weight total: ${escapeHtml(result.policy.sum ?? 'invalid')}%.</b> ${result.normalizedPreview !== null ? `Normalized preview: ${result.normalizedPreview.toFixed(2)}/10 (provisional; not a final CRR).` : ''}</p>` : ''}</div>
     <footer class="paper-footer">${BANK} · CRR ${VERSION} · Source: ${form.source}<span>Record ${escapeHtml(state.id)}</span></footer>
   </div>`;
 }
