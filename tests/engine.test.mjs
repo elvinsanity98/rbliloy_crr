@@ -153,7 +153,7 @@ test('existing Consumer records retain weights and policy references when defaul
   assert.equal(calculate(restored).policy.sum,110);assert.equal(calculate(restored).score,null);
   const approved=validateAssessment(approvedConsumer(fixture('consumer')));
   const report=buildReport(approved);
-  assert.ok(report.includes('TEST POLICY ONLY'));assert.ok(report.includes('QA fixture — not a bank-approved model'));
+  assert.ok(!report.includes('Calculation / policy'));assert.ok(!report.includes('Bank interpretation recorded by'));
 });
 test('corrupted or unavailable storage fails without overwriting existing records',()=>{
   const store=memoryStorage();store.setItem(STORAGE_KEY,'broken');assert.throws(()=>saveDraft(fixture(),store));assert.equal(store.getItem(STORAGE_KEY),'broken');
