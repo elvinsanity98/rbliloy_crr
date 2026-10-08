@@ -72,12 +72,9 @@ test('a selected zero is counted; a missing answer is not',()=>{
   assert.equal(calculate(s).answered,19);assert.equal(calculate(s).score,0);assert.equal(calculate(s).finalGrade,7);
   delete s.answers['c-social'];assert.equal(calculate(s).answered,18);assert.equal(calculate(s).score,null);
 });
-test('unclear SME item 23 B cannot silently receive 5 points',()=>{
+test('SME item 23 B scores 5 points',()=>{
   const s=fixture();s.answers['s-investments']='B';
-  assert.equal(calculate(s).score,null);
-  Object.assign(s.policy,{investmentB:'5',confirmed:true,approvedBy:'QA',reference:'QA interpretation'});
   assert.equal(calculate(s).score,9.78);
-  s.policy.investmentB='0';assert.equal(calculate(s).score,9.56);
 });
 test('minor document deficiencies downgrade exactly one level',()=>{
   const s=fixture();s.review.documents='minor';assert.equal(calculate(s).finalGrade,2);

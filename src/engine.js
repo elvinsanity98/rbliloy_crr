@@ -13,15 +13,12 @@ export function createAssessment(type = 'consumer') {
     qualification: {}, qualificationRemarks: '', qualificationApprovedBy: '',
     answers: {}, reasons: {},
     review: { documents: '', startup: false, negativeWorkingCapital: false, negativeNetWorth: false, delinquent: false, daysPastDue: '', delinquencyGrade: '', delinquencyReason: '', override: '', overrideReason: '', overrideBy: '', preparedBy: '', preparedDate: localDate(), reviewedBy: '', reviewedDate: '', approvedBy: '', approvedDate: '', raterRemarks: '', reviewerRemarks: '' },
-    policy: { weights: Object.fromEntries(FORMS[type].groups.map(g => [g.id, g.weight])), approvedBy: '', reference: '', confirmed: false, investmentB: '' },
+    policy: { weights: Object.fromEntries(FORMS[type].groups.map(g => [g.id, g.weight])), approvedBy: '', reference: '', confirmed: false },
   };
 }
 export function optionScore(state, question) {
   const option = question.options.find(o => o.key === state.answers[question.id]);
   if (!option) return null;
-  if (question.id === 's-investments' && option.key === 'B') {
-    return state.policy.confirmed && state.policy.approvedBy.trim() && state.policy.reference.trim() && ['0', '5'].includes(String(state.policy.investmentB)) ? Number(state.policy.investmentB) : null;
-  }
   return option.score;
 }
 export function gradeForScore(type, score) {
@@ -61,7 +58,6 @@ export function calculate(state) {
   if (!complete) blockers.push(`Complete all ${total} risk criteria (${answered} scored).`);
   if (state.type === 'sme' && state.answers['s-supplier-12'] && !state.answers['s-buyer-12']) blockers.push('Rate SME item 12 for buyers/customers. Its earlier supplier response is retained in the editable record.');
   if (!policy.valid) blockers.push(policy.sum !== 100 ? `Section weights total ${policy.sum ?? 'an invalid value'}%. Record approved weights totaling 100% in Scoring policy.` : 'Record the approver and policy reference for the changed section weights.');
-  if (state.type === 'sme' && state.answers['s-investments'] === 'B' && optionScore(state, allQuestions('sme').find(q => q.id === 's-investments')) === null) blockers.push('Confirm the unclear score for SME item 23, option B, in Scoring policy.');
   if (score !== null && baseGrade === null) blockers.push('The SME source has no numeric rating band below 4.00. A final CRR cannot be inferred from this score.');
   const r = state.review;
   if (!['complete', 'minor', 'major'].includes(r.documents)) blockers.push('Select the completeness of required documents.');
@@ -164,7 +160,6 @@ export function validateAssessment(raw) {
     if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0 || value > 100) throw new Error('Invalid section weight.');
     clean.policy.weights[g.id] = value;
   }
-  if (!['', '0', '5'].includes(clean.policy.investmentB)) throw new Error('Invalid SME item 23 score.');
   if (typeof raw.id === 'string' && /^[\da-f-]{36}$/i.test(raw.id)) clean.id = raw.id;
   if (typeof raw.updatedAt === 'string' && Number.isFinite(Date.parse(raw.updatedAt))) clean.updatedAt = raw.updatedAt;
   return clean;

@@ -69,6 +69,6 @@ export function buildCsv(state) {
   });
   Object.entries(state.review).forEach(([key, value]) => rows.push(['Review', key, value]));
   rows.push(['Result', 'Weighted score', result.score], ['Result', 'Base CRR', result.baseGrade], ['Result', 'Adjusted CRR', result.adjustedGrade], ['Result', 'Calculated CRR', result.finalGrade], ['Result', 'Assessment', result.grade?.title], ['Result', 'Risk', result.grade?.risk], ['Result', 'Acceptance', result.grade?.acceptance], ['Result', 'Outstanding items', [...result.blockers, ...result.missingFields].join(' | ')]);
-  rows.push(['Policy', 'Reference', state.policy.reference], ['Policy', 'Recorded approved by', state.policy.approvedBy], ['Policy', 'Confirmation recorded', state.policy.confirmed], ['Policy', 'SME item 23 B score', state.policy.investmentB], ['Policy', 'Formula', 'Section item mean × weight; sum contributions, round once to 2 decimals. Higher grade number means worse risk.'], ['Policy', 'Source', FORMS[state.type].source]);
+  rows.push(['Policy', 'Reference', state.policy.reference], ['Policy', 'Recorded approved by', state.policy.approvedBy], ['Policy', 'Confirmation recorded', state.policy.confirmed], ['Policy', 'Formula', 'Section item mean × weight; sum contributions, round once to 2 decimals. Higher grade number means worse risk.'], ['Policy', 'Source', FORMS[state.type].source]);
   return '\ufeff' + rows.map(row => row.map(csvCell).join(',')).join('\r\n');
 }
